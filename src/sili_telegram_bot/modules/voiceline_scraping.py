@@ -26,6 +26,26 @@ TEXT_PROCESS_RE_PREFIX = re.compile(
 
 TEXT_PROCESS_RE_SUFFIX = re.compile(r"(\s+followup)?$")
 
+MANUAL_ENTITY_DATA = {
+    "Male announcer": EntityData(
+        name="Male announcer",
+        title="Announcer_responses/Male",
+        url=f"{VL_CONFIG['base_url']}/Announcer_responses/Male",
+    ),
+    "Custom game announcer": EntityData(
+        name="Custom game announcer",
+        title="Announcer_responses/Custom_games",
+        url=f"{VL_CONFIG['base_url']}/Announcer_responses/Custom_games",
+    ),
+    "International voicelines": EntityData(
+        name="International voicelines",
+        title="Announcer_responses/The_International",
+        url=f"{VL_CONFIG['base_url']}/Announcer_responses/The_International",
+    ),
+}
+
+MANUAL_ENTITY_TITLES = [entity["title"] for entity in MANUAL_ENTITY_DATA.values()]
+
 
 def parse_link_row(
     link_row: bs4.element.Tag, base_url: str = VL_CONFIG["base_url"]
@@ -187,10 +207,14 @@ def extract_entity_table(
 
     entity_data_lists = [parse_link_row(link_row) for link_row in path_tag_list]
 
-    return {
+    entity_data = {
         table_header: entity_dict
         for table_header, entity_dict in zip(table_headers, entity_data_lists)
     }
+
+    entity_data["Manual additions"] = MANUAL_ENTITY_DATA
+
+    return entity_data
 
 
 def save_entity_table(
@@ -211,6 +235,7 @@ def extract_voiceline_urls() -> dict[str, dict[str, EntityData]]:
     """
     mediawiki_api = APIWrapper.get_or_create_mediawiki_api()
     response_titles = mediawiki_api.categorymembers("Responses", results=None)[0]
+    response_titles.append(MANUAL_ENTITY_TITLES)
     return extract_response_urls_from_titles(response_titles)
 
 
