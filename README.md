@@ -3,7 +3,7 @@
 A telegram bot that evaluates DOTA2 matches of people and notifies about their
 results.
 
-# Local development 🏗️
+## Local development 🏗️
 
 - Copy the `config.json.example` to `config.json`
 - Find your
@@ -13,20 +13,20 @@ results.
   [@userinfobot](https://t.me/userinfobot)
 - Update `config.json` with all the information.
 
-## Without docker ⚙️
+### Without docker ⚙️
 
 Change the two variables `bot_token` and `chat_id` in `bot.py` accordingly.
 Instead of using inline environment variables you can use a `.env` file in
 VSCode.
 
-### For Linux 🐧
+#### For Linux 🐧
 
 ```bash
 pip install .
 bot_token="<bot_token>" chat_id="<chat_id>" run_bot
 ```
 
-### For Windows 💩
+#### For Windows 💩
 
 ```powershell
 pip install .
@@ -36,7 +36,7 @@ set chat_id="<chat_id>"
 run_bot
 ```
 
-## With docker 🐋
+### With docker 🐋
 
 ```bash
 docker rm sili-bot
@@ -64,7 +64,7 @@ docker run --mount source=silibotvolume,target=/bot/resources/dynamic --name sil
 
 ## WIP: Port to Rust
 
-# Inline mode
+## Inline mode
 
 The bot has the capability for inline response search (see
 <https://core.telegram.org/bots/inline> for more information). To enable this,
