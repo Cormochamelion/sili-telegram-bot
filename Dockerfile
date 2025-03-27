@@ -1,4 +1,4 @@
-FROM python:3.10
+FROM python:3.10 AS base
 WORKDIR /bot
 
 ARG bot_token
@@ -12,6 +12,18 @@ COPY config config
 COPY src src
 COPY resources resources
 COPY config.json config.json
+
+FROM base AS test
+
+COPY tests tests
+
+RUN pip install .[dev]
+
+WORKDIR /bot
+
+ENTRYPOINT [ "pytest" ]
+
+FROM base AS prod
 
 RUN pip install .
 
