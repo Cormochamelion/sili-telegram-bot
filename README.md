@@ -62,6 +62,30 @@ repo's and adds persistence:
 docker run --mount source=silibotvolume,target=/bot/resources/dynamic --name sili-bot -d sili-bot
 ```
 
+### Testing 🥼
+
+#### Locally
+
+To run the tests locally, first install the package with dev depencencies and
+then invoke pytest:
+
+```bash
+pip install .[dev]
+pytest
+```
+
+#### In Docker
+
+The Dockerfile contains a testing stage. Build it and run tests in a container
+like so:
+
+```bash
+docker rm sili-bot-testing
+docker build -t sili-bot-testing --target test .
+docker run --name sili-bot-testing sili-bot-testing
+```
+
+
 ## WIP: Port to Rust
 
 ## Inline mode
